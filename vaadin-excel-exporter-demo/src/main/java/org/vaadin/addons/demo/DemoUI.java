@@ -23,6 +23,7 @@ import org.vaadin.addons.formatter.SuffixColumnFormatter;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
@@ -46,6 +47,7 @@ import com.vaadin.ui.VerticalLayout;
  *
  */
 @Theme("demo")
+@Widgetset("AppWidgetset")
 @Title("vaadin-excel-exporter Add-on Demo")
 @SuppressWarnings("serial")
 public class DemoUI extends UI {
@@ -69,8 +71,7 @@ public class DemoUI extends UI {
             asyncSupported = true)
     @VaadinServletConfiguration(
             productionMode = false,
-            ui = DemoUI.class,
-            widgetset = "org.vaadin.addons.demo.DemoWidgetSet")
+            ui = DemoUI.class)
     public static class Servlet extends VaadinServlet {
     }
 

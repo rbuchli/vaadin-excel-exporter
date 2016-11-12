@@ -64,7 +64,7 @@ public class ExportToExcelUtility<BEANTYPE> extends ExportUtility {
     UI sourceUI = null;
 
     ExportExcelConfiguration exportExcelConfiguration;
-    Class typeClass = null;
+    Class<?> typeClass = null;
 
     Hashtable<String, Method> methodMap = new Hashtable<String, Method>();
 
@@ -84,7 +84,7 @@ public class ExportToExcelUtility<BEANTYPE> extends ExportUtility {
     public ExportToExcelUtility() {
     }
 
-    public ExportToExcelUtility(final UI ui, final ExportExcelConfiguration exportExcelConfiguration, final Class typeClass) {
+    public ExportToExcelUtility(final UI ui, final ExportExcelConfiguration exportExcelConfiguration, final Class<?> typeClass) {
 
         this.exportExcelConfiguration = exportExcelConfiguration;
         this.sourceUI = ui;
@@ -721,7 +721,7 @@ public class ExportToExcelUtility<BEANTYPE> extends ExportUtility {
         return formatted;
     }
 
-    public void getAllMethods(Class type, final Hashtable<String, Method> map) {
+    public void getAllMethods(Class<?> type, final Hashtable<String, Method> map) {
 
         while (type != Object.class) {
             for (final Field field : type.getDeclaredFields()) {

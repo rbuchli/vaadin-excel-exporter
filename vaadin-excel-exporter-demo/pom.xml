@@ -9,11 +9,11 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<vaadin.version>7.6.6</vaadin.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<vaadin.version>7.7.3</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
-		<jetty.plugin.version>9.2.3.v20140905</jetty.plugin.version>
+		<jetty.plugin.version>9.3.9.v20160517</jetty.plugin.version>
 	</properties>
 
    	<organization>
@@ -25,7 +25,7 @@
 		<url>git://github.com/bonprix/vaadin-excel-exporter.git</url>
 		<connection>scm:git:git://github.com/bonprix/vaadin-excel-exporter.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com:/bonprix/vaadin-excel-exporter.git</developerConnection>
-    	<tag>vaadin-excel-exporter-root-1.0.0-SNAPSHOT</tag>
+    	<tag>vaadin-excel-exporter-root-1.0.3-SNAPSHOT</tag>
   	</scm>
 
 	<issueManagement>
@@ -116,17 +116,18 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
+				<version>3.5.1</version>
 			</plugin>
 
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.4.1</version>
+				<version>3.0.0</version>
 				<configuration>
 					<filesets>
 						<fileset>
 							<!-- Clean-up gwt cache -->
 							<directory>${basedir}/src/main/webapp/VAADIN/gwt-unitCache</directory>
+							<directory>src/main/webapp/VAADIN/widgetsets</directory>
 						</fileset>
 					</filesets>
 				</configuration>
@@ -134,7 +135,7 @@
 
 			<plugin>
 		        <artifactId>maven-war-plugin</artifactId>
-		        <version>2.3</version>
+		        <version>2.6</version>
 		        <configuration>
 		        	<packagingExcludes>
 						**/VAADIN/gwt-unitCache/**,
@@ -149,11 +150,31 @@
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-maven-plugin</artifactId>
 				<version>${vaadin.plugin.version}</version>
+				<!--
 				<configuration>
 					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
 					<noServer>true</noServer>
 					<persistentunitcachedir>${basedir}/target/tmp/gwt-unitCache</persistentunitcachedir>
 					<compileReport>false</compileReport>
+					<strict>true</strict>
+					<runTarget>http://localhost:8080/</runTarget>
+				</configuration>
+				-->
+				<configuration>
+					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+					<!-- <runTarget>mobilemail</runTarget> -->
+					<!-- We are doing "inplace" but into subdir VAADIN/widgetsets. This 
+						way compatible with Vaadin eclipse plugin. -->
+					<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets
+					</webappDirectory>
+					<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets
+					</hostedWebapp>
+					<noServer>true</noServer>
+					<persistentunitcachedir>${basedir}/target/tmp/gwt-unitCache</persistentunitcachedir>
+					<!-- Remove draftCompile when project is ready -->
+					<draftCompile>false</draftCompile>
+					<compileReport>true</compileReport>
+					<style>OBF</style>
 					<strict>true</strict>
 					<runTarget>http://localhost:8080/</runTarget>
 				</configuration>
@@ -164,7 +185,11 @@
 							<!-- if you don't specify any modules, the plugin will find them -->
 						</configuration>
 						<goals>
+							<goal>clean</goal>
 							<goal>resources</goal>
+							<goal>update-theme</goal>
+							<goal>update-widgetset</goal>
+							<goal>compile-theme</goal>
 							<goal>compile</goal>
 						</goals>
 					</execution>
